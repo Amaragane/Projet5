@@ -1,0 +1,62 @@
+@model IEnumerable<Projet5.Models.VoitureModel>
+
+@{
+    ViewData["Title"] = "Nos véhicules";
+}
+
+<div class="container">
+    <h1 class="my-4">Notre sélection de véhicules</h1>
+    
+    <div class="mb-4">
+        <div class="row">
+            <div class="col-md-6">
+                <form method="get" class="d-flex">
+                    <input type="text" name="searchString" class="form-control me-2" placeholder="Rechercher par marque ou modèle" />
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var item in Model) {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl)) {
+                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Marque @item.Modele" style="height: 200px; object-fit: cover;">
+                    } else {
+                        <div class="bg-light text-center p-5">
+                            <i class="bi bi-image" style="font-size: 4rem;"></i>
+                            <p>Image non disponible</p>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Marque @item.Modele</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.AnneeModel - @item.Finition</h6>
+                        
+                        <ul class="list-group list-group-flush mt-3 mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Prix:</span>
+                                <span>@((item.PrixAchat + item.CoutReparation + 500).ToString("C0"))</span>
+                                
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Disponibilité:</span>
+                                @if (item.EstDisponible) {
+                                    <span class="badge bg-success">Disponible</span>
+                                } else {
+                                    <span class="badge bg-danger">Non disponible</span>
+                                }
+                            </li>
+                        </ul>
+                        
+                        <a asp-action="Details" asp-route-id="@item.Vin" class="btn btn-outline-primary">Voir détails</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Disponible à partir du @item.DateDisponibilité.ToString("dd/MM/yyyy")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Projet5.Data;
+using Projet5.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// Ajouter HttpContextAccessor pour accéder au contexte HTTP
+builder.Services.AddHttpContextAccessor();
+// Enregistrer notre service personnalisé
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 

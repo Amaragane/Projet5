@@ -1,0 +1,132 @@
+@model Projet5.Models.VoitureModel
+
+@{
+    ViewData["Title"] = "Ajouter un véhicule";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Accueil</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Admin">Administration</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Ajouter un véhicule</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Ajouter un nouveau véhicule</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="mb-3">Informations générales</h4>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Marque" class="form-label"></label>
+                                    <input asp-for="Marque" class="form-control" />
+                                    <span asp-validation-for="Marque" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Modele" class="form-label"></label>
+                                    <input asp-for="Modele" class="form-control" />
+                                    <span asp-validation-for="Modele" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="AnneeModel" class="form-label"></label>
+                                    <input asp-for="AnneeModel" class="form-control" type="number" />
+                                    <span asp-validation-for="AnneeModel" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Finition" class="form-label"></label>
+                                    <input asp-for="Finition" class="form-control" />
+                                    <span asp-validation-for="Finition" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h4 class="mb-3">Informations financières et techniques</h4>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="DateAchat" class="form-label"></label>
+                                    <input asp-for="DateAchat" class="form-control" type="date" />
+                                    <span asp-validation-for="DateAchat" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="DateDisponibilité" class="form-label"></label>
+                                    <input asp-for="DateDisponibilité" class="form-control" type="date" />
+                                    <span asp-validation-for="DateDisponibilité" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="PrixAchat" class="form-label"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">€</span>
+                                        <input asp-for="PrixAchat" class="form-control" type="number" />
+                                    </div>
+                                    <span asp-validation-for="PrixAchat" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Reparation" class="form-label"></label>
+                                    <input asp-for="Reparation" class="form-control" />
+                                    <span asp-validation-for="Reparation" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="CoutReparation" class="form-label"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">€</span>
+                                        <input asp-for="CoutReparation" class="form-control" type="number" />
+                                    </div>
+                                    <span asp-validation-for="CoutReparation" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="mb-3 form-check">
+                                    <input asp-for="EstDisponible" class="form-check-input" />
+                                    <label asp-for="EstDisponible" class="form-check-label"></label>
+                                    <span asp-validation-for="EstDisponible" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ImageUrl" class="form-label"></label>
+                                    <input asp-for="ImageUrl" class="form-control" />
+                                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                                    <small class="form-text text-muted">Entrez l'URL complète de l'image</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 d-flex justify-content-between">
+                            <a asp-action="Admin" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

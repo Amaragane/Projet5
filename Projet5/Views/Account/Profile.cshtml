@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Mon profil";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Accueil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mon profil</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Informations personnelles</h4>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="bg-light rounded-circle mx-auto d-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
+                            <i class="bi bi-person-circle" style="font-size: 4rem;"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title">@User.Identity.Name</h5>
+                    <p class="card-text">
+                        <small class="text-muted">Membre depuis @DateTime.Now.AddMonths(-2).ToString("MMMM yyyy")</small>
+                    </p>
+                    <a href="#" class="btn btn-outline-primary">Modifier mes informations</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Paramètres du compte</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        Changer de mot de passe
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        Notifications
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        Confidentialité
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Tableau de bord</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h5 class="alert-heading"><i class="bi bi-info-circle"></i> Bienvenue dans votre espace personnel</h5>
+                        <p>Ici, vous pouvez gérer vos informations personnelles et suivre vos interactions avec notre service automobile.</p>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-car-front" style="font-size: 2rem;"></i>
+                                    <h5 class="mt-2">Véhicules consultés</h5>
+                                    <p class="fs-4">12</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-heart" style="font-size: 2rem;"></i>
+                                    <h5 class="mt-2">Favoris</h5>
+                                    <p class="fs-4">3</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mb-3">Activité récente</h5>
+                    <div class="list-group">
+                        <div class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Consultation d'une Audi A4</h6>
+                                <small>Il y a 3 jours</small>
+                            </div>
+                            <p class="mb-1">Vous avez consulté les détails d'une Audi A4 de 2019.</p>
+                        </div>
+                        <div class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Ajout aux favoris</h6>
+                                <small>Il y a 5 jours</small>
+                            </div>
+                            <p class="mb-1">Vous avez ajouté une BMW Série 3 à vos favoris.</p>
+                        </div>
+                        <div class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Connexion</h6>
+                                <small>Il y a 1 semaine</small>
+                            </div>
+                            <p class="mb-1">Vous vous êtes connecté à votre compte.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

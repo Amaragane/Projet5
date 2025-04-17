@@ -35,7 +35,7 @@ namespace Projet5.Models
 
         [Display(Name = "Réparation")]
         [Required(ErrorMessage = "Le champ des réparation est requis.")]
-        public int Reparation { get; set; }
+        public string Reparation { get; set; } = null!;
 
         [Display(Name = "Cout des répaaration")]
         [Required(ErrorMessage = "Le champ Cout des réparation est requis.")]

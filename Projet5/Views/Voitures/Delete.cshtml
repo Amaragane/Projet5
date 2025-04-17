@@ -1,0 +1,71 @@
+@model Projet5.Models.VoitureModel
+
+@{
+    ViewData["Title"] = "Supprimer un véhicule";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Accueil</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Admin">Administration</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Supprimer un véhicule</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Confirmer la suppression</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h4 class="alert-heading">Attention !</h4>
+                        <p>Vous êtes sur le point de supprimer ce véhicule de manière définitive. Cette action ne peut pas être annulée.</p>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl)) {
+                                <img src="@Model.ImageUrl" alt="@Model.Marque @Model.Modele" class="img-fluid rounded">
+                            } else {
+                                <div class="bg-light text-center p-4 rounded">
+                                    <i class="bi bi-image" style="font-size: 3rem;"></i>
+                                    <p>Pas d'image</p>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-8">
+                            <h4>@Model.Marque @Model.Modele (@Model.AnneeModel)</h4>
+                            <p><strong>Finition:</strong> @Model.Finition</p>
+                            <p><strong>VIN:</strong> @Model.Vin</p>
+                            <p><strong>Date d'achat:</strong> @Model.DateAchat.ToString("dd/MM/yyyy")</p>
+                            <p><strong>Prix d'achat:</strong> @Model.PrixAchat.ToString("C0")</p>
+                            <p>
+                                <strong>Statut:</strong>
+                                @if (Model.EstDisponible) {
+                                    <span class="badge bg-success">Disponible</span>
+                                } else {
+                                    <span class="badge bg-danger">Non disponible</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Vin" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Admin" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

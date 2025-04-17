@@ -2,7 +2,7 @@
 
 namespace Projet5.Models
 {
-    public class UserMode
+    public class UserModel
     {
         [Key]
         public int Id { get; set; }
