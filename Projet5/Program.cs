@@ -12,7 +12,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -21,12 +22,9 @@ builder.Services.AddHttpContextAccessor();
 
 // Enregistrer les repositories
 builder.Services.AddScoped<IVoitureRepository, VoitureRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Enregistrer les services
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IVoitureService, VoitureService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
@@ -51,7 +49,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Voitures}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

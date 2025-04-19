@@ -1,59 +1,42 @@
 @model IEnumerable<Projet5.Models.VoitureModel>
 
 @{
-    ViewData["Title"] = "Nos véhicules";
+    ViewData["Title"] = "Nos voitures";
 }
 
-<div class="container">
-    <h1 class="my-4">Notre sélection de véhicules</h1>
+<div class="container mt-4">
+    <h1 class="text-center" style="font-size: 28px; margin-bottom: 20px;">Nos voitures</h1>
     
-    <div class="mb-4">
-        <div class="row">
-            <div class="col-md-6">
-                <form method="get" class="d-flex">
-                    <input type="text" name="searchString" class="form-control me-2" placeholder="Rechercher par marque ou modèle" />
-                    <button type="submit" class="btn btn-primary">Rechercher</button>
-                </form>
-            </div>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <div class="text-center mb-5">
+            <a asp-controller="Voitures" asp-action="Create" class="btn btn-express">Ajouter une voiture</a>
         </div>
-    </div>
+    }
 
     <div class="row">
-        @foreach (var item in Model) {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    @if (!string.IsNullOrEmpty(item.ImageUrl)) {
-                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Marque @item.Modele" style="height: 200px; object-fit: cover;">
-                    } else {
-                        <div class="bg-light text-center p-5">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card border-0">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.Marque @item.Modele" class="card-img-top" style="height: 220px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="bg-light text-center p-5" style="height: 220px;">
                             <i class="bi bi-image" style="font-size: 4rem;"></i>
                             <p>Image non disponible</p>
                         </div>
                     }
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Marque @item.Modele</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@item.AnneeModel - @item.Finition</h6>
-                        
-                        <ul class="list-group list-group-flush mt-3 mb-3">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Prix:</span>
-                                <span>@((item.PrixAchat + item.CoutReparation + 500).ToString("C0"))</span>
-                                
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Disponibilité:</span>
-                                @if (item.EstDisponible) {
-                                    <span class="badge bg-success">Disponible</span>
-                                } else {
-                                    <span class="badge bg-danger">Non disponible</span>
-                                }
-                            </li>
-                        </ul>
-                        
-                        <a asp-action="Details" asp-route-id="@item.Vin" class="btn btn-outline-primary">Voir détails</a>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Disponible à partir du @item.DateDisponibilité.ToString("dd/MM/yyyy")
+                    <div class="card-body px-0">
+                        <h5 class="mb-2">Prix de vente</h5>
+                        <p class="mb-1">@item.Marque</p>
+                        <p class="mb-1">@item.Modele</p>
+                        <p class="mb-1">@item.AnneeModel</p>
+                        <p class="mb-1">@item.Finition</p>
+                        <p class="mb-1">@((item.PrixAchat + item.CoutReparation + 500).ToString("C0"))</p>
                     </div>
                 </div>
             </div>

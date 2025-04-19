@@ -1,51 +1,52 @@
-﻿@{
+@{
     ViewData["Title"] = "Accueil";
 }
 
-<div class="text-center mb-4">
-    <h1 class="display-4">Bienvenue chez Express Voitures</h1>
-    <p class="lead">Découvrez notre sélection de véhicules de qualité</p>
-</div>
-
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 mb-4">
-            <a asp-controller="Voitures" asp-action="Index" class="btn btn-primary">
-                Voir tous les véhicules disponibles
-            </a>
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="display-4 fw-bold mb-4">Bienvenue chez Express Voitures</h1>
+            <p class="lead mb-4">
+                Nous proposons une large gamme de véhicules d'occasion de qualité, inspectés et préparés par nos experts.
+            </p>
+            <div class="d-grid gap-2 d-md-flex">
+                <a asp-controller="Voitures" asp-action="Index" class="btn btn-express btn-lg px-4 me-md-2">Découvrir nos véhicules</a>
+                <a href="#" class="btn btn-outline-secondary btn-lg px-4">Nous contacter</a>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="~/images/cars/car1.png" alt="Voiture d'occasion" class="img-fluid rounded shadow-lg" style="max-width: 100%;">
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Recherche par modèle</h5>
-                    <p class="card-text">Recherchez la voiture idéale en fonction de vos besoins.</p>
-                    <a href="#" class="btn btn-outline-primary">Rechercher</a>
+    <div class="row mt-5 pt-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Pourquoi nous choisir ?</h2>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-shield-check text-primary" style="font-size: 3rem;"></i>
+                    <h3 class="h5 mt-3">Véhicules vérifiés</h3>
+                    <p class="card-text">Tous nos véhicules passent une inspection rigoureuse avant la mise en vente.</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Véhicules récents</h5>
-                    <p class="card-text">Découvrez nos dernières arrivées en stock.</p>
-                    <a href="#" class="btn btn-outline-primary">Nouveautés</a>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-currency-euro text-primary" style="font-size: 3rem;"></i>
+                    <h3 class="h5 mt-3">Prix transparents</h3>
+                    <p class="card-text">Nos prix sont clairement affichés, sans frais cachés ni mauvaises surprises.</p>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Notre engagement qualité</h4>
-                    <p class="card-text">
-                        Notre concession vous propose une sélection de véhicules soigneusement inspections et entretenus.
-                        Chaque voiture est vérifiée par nos mécaniciens qualifiés pour vous garantir sécurité et fiabilité.
-                    </p>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-headset text-primary" style="font-size: 3rem;"></i>
+                    <h3 class="h5 mt-3">Service client dédié</h3>
+                    <p class="card-text">Notre équipe est à votre disposition pour vous accompagner dans votre achat.</p>
                 </div>
             </div>
         </div>

@@ -12,13 +12,13 @@ namespace Projet5.Models
 
         [Required(ErrorMessage = "Le champ Modele est requis.")]
         public string Modele { get; set; } = null!;
-
+        [CustomRange(1980)]
         [Display(Name = "Année du modele")]
         [Required(ErrorMessage = "Le champ Année du modele est requis.")]
         public int AnneeModel { get; set; }
 
         [Required(ErrorMessage = "Le champ Finition est requis.")]
-        public string Finition { get; set; }= null!;
+        public string Finition { get; set; } = null!;
 
         [Display(Name = "Date d'achat")]
         [Required(ErrorMessage = "Le champ Date d'achat est requis.")]
@@ -47,8 +47,13 @@ namespace Projet5.Models
 
         [Display(Name = "Image")]
         [Required(ErrorMessage = "L'image est requise.")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         // Autres propriétés spécifiques à votre modèle de voiture
     }
+    public class CustomRangeAttribute(int minimum) : RangeAttribute(minimum, DateTime.Now.Year)
+    {
+
+    }
 }
+

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8" />
@@ -6,66 +6,58 @@
     <title>@ViewData["Title"] - Express Voitures</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/express-voitures.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Projet5.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+<body class="bg-white">
+    <header class="bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-none">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-car-front"></i> Express Voitures
+                <a class="navbar-brand" asp-area="" asp-controller="Voitures" asp-action="Index" style="font-weight: 400; color: #E3A33B;">
+                    Express Voitures
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-house"></i> Accueil
+                            <a class="nav-link" asp-area="" asp-controller="Voitures" asp-action="Index" style="color: #000;">
+                                Accueil
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Voitures" asp-action="Index">
-                                <i class="bi bi-grid"></i> Nos véhicules
+                            <a class="nav-link" asp-area="" asp-controller="Voitures" asp-action="Index" style="color: #000;">
+                                Nos véhicules
                             </a>
                         </li>
-                        @await Component.InvokeAsync("AdminMenu")
-                    </ul>
-                    
-                    <ul class="navbar-nav">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person-circle"></i> @User.Identity.Name
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Mon profil</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
-                                            <button type="submit" class="dropdown-item">Se déconnecter</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                        else
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Register">
-                                    <i class="bi bi-person-plus"></i> S'inscrire
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Login">
-                                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                                <a class="nav-link" asp-area="" asp-controller="Voitures" asp-action="Admin" style="color: #000;">
+                                    Administration
                                 </a>
                             </li>
                         }
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Voitures", new { area = "" })">
+                                    <button type="submit" class="nav-link btn btn-link" style="color: #000; background: none; border: none; padding: 0;">
+                                        Déconnexion
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" style="color: #000;">
+                                    Connexion
+                                </a>
+                            }
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -77,42 +69,9 @@
         </main>
     </div>
 
-    <footer class="bg-dark text-white py-4 mt-5">
+    <footer class="py-4 mt-5 text-center border-top bg-white" style="color: #696969;">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <h5><i class="bi bi-car-front"></i> Express Voitures</h5>
-                    <p>Votre spécialiste automobile de confiance depuis 2020. Trouvez votre véhicule idéal parmi notre sélection de qualité.</p>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h5>Liens rapides</h5>
-                    <ul class="list-unstyled">
-                        <li><a class="text-light" asp-controller="Home" asp-action="Index">Accueil</a></li>
-                        <li><a class="text-light" asp-controller="Voitures" asp-action="Index">Nos véhicules</a></li>
-                        <li><a class="text-light" asp-controller="Home" asp-action="Privacy">Politique de confidentialité</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Contact</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="bi bi-geo-alt"></i> 123 Avenue des Véhicules, 75000 Paris</li>
-                        <li><i class="bi bi-telephone"></i> +33 123 456 789</li>
-                        <li><i class="bi bi-envelope"></i> contact@expressvoiture.fr</li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-3 bg-secondary" />
-            <div class="row">
-                <div class="col-md-6">
-                    <small>&copy; @DateTime.Now.Year - Express Voitures - Tous droits réservés</small>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white me-2"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
-                </div>
-            </div>
+            <p>&copy; @DateTime.Now.Year - Express Voitures</p>
         </div>
     </footer>
     

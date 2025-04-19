@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Projet5.Filters;
 using Projet5.Models;
 using Projet5.Services;
 using System;
@@ -45,8 +44,7 @@ namespace Projet5.Controllers
         }
 
         // GET: Voitures/Create
-        [Authorize]
-        [AdminOnly]
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -55,8 +53,8 @@ namespace Projet5.Controllers
         // POST: Voitures/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        [AdminOnly]
+        [Authorize(Roles ="Admin")]
+        
         public async Task<IActionResult> Create(VoitureModel voiture)
         {
             if (ModelState.IsValid)
@@ -71,8 +69,7 @@ namespace Projet5.Controllers
         }
 
         // GET: Voitures/Edit/5
-        [Authorize]
-        [AdminOnly]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,8 +88,7 @@ namespace Projet5.Controllers
         // POST: Voitures/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        [AdminOnly]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Edit(int id, VoitureModel voiture)
         {
             if (id != voiture.Vin)
@@ -123,8 +119,8 @@ namespace Projet5.Controllers
         }
 
         // GET: Voitures/Delete/5
-        [Authorize]
-        [AdminOnly]
+        [Authorize(Roles ="Admin")]
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,8 +140,7 @@ namespace Projet5.Controllers
         // POST: Voitures/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        [AdminOnly]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             bool success = await _voitureService.DeleteVoitureAsync(id);
@@ -158,8 +153,7 @@ namespace Projet5.Controllers
         }
 
         // GET: Voitures/Admin
-        [Authorize]
-        [AdminOnly]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Admin()
         {
             var voitures = await _voitureService.GetAllVoituresAsync();

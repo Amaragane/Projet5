@@ -6,61 +6,71 @@
 
 <div class="container">
     <div class="row mb-4">
-        <div class="col-md-12">
+        <div class="col">
+            <h1 class="display-6 text-danger">Supprimer ce véhicule</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Accueil</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Voitures" asp-action="Index">Accueil</a></li>
                     <li class="breadcrumb-item"><a asp-action="Admin">Administration</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Supprimer un véhicule</li>
+                    <li class="breadcrumb-item active" aria-current="page">Supprimer</li>
                 </ol>
             </nav>
         </div>
     </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border-danger">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm border-danger">
                 <div class="card-header bg-danger text-white">
-                    <h3 class="mb-0">Confirmer la suppression</h3>
+                    <h5 class="mb-0">Confirmation de suppression</h5>
                 </div>
                 <div class="card-body">
                     <div class="alert alert-warning">
-                        <h4 class="alert-heading">Attention !</h4>
-                        <p>Vous êtes sur le point de supprimer ce véhicule de manière définitive. Cette action ne peut pas être annulée.</p>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Êtes-vous sûr de vouloir supprimer ce véhicule ? Cette action est irréversible.
                     </div>
                     
-                    <div class="row mb-4">
+                    <div class="row mt-4">
                         <div class="col-md-4">
                             @if (!string.IsNullOrEmpty(Model.ImageUrl)) {
                                 <img src="@Model.ImageUrl" alt="@Model.Marque @Model.Modele" class="img-fluid rounded">
                             } else {
-                                <div class="bg-light text-center p-4 rounded">
-                                    <i class="bi bi-image" style="font-size: 3rem;"></i>
-                                    <p>Pas d'image</p>
+                                <div class="bg-light text-center p-3 rounded">
+                                    <i class="bi bi-image" style="font-size: 4rem;"></i>
+                                    <p>Image non disponible</p>
                                 </div>
                             }
                         </div>
                         <div class="col-md-8">
-                            <h4>@Model.Marque @Model.Modele (@Model.AnneeModel)</h4>
-                            <p><strong>Finition:</strong> @Model.Finition</p>
-                            <p><strong>VIN:</strong> @Model.Vin</p>
-                            <p><strong>Date d'achat:</strong> @Model.DateAchat.ToString("dd/MM/yyyy")</p>
-                            <p><strong>Prix d'achat:</strong> @Model.PrixAchat.ToString("C0")</p>
-                            <p>
-                                <strong>Statut:</strong>
-                                @if (Model.EstDisponible) {
-                                    <span class="badge bg-success">Disponible</span>
-                                } else {
-                                    <span class="badge bg-danger">Non disponible</span>
-                                }
-                            </p>
+                            <h4>@Model.Marque @Model.Modele</h4>
+                            <p class="text-muted">@Model.Finition (@Model.AnneeModel)</p>
+                            
+                            <dl class="row">
+                                <dt class="col-sm-4">VIN:</dt>
+                                <dd class="col-sm-8">@Model.Vin</dd>
+                                
+                                <dt class="col-sm-4">Prix d'achat:</dt>
+                                <dd class="col-sm-8">@Model.PrixAchat.ToString("C0")</dd>
+                                
+                                <dt class="col-sm-4">Réparations:</dt>
+                                <dd class="col-sm-8">@Model.CoutReparation.ToString("C0")</dd>
+                                
+                                <dt class="col-sm-4">Disponibilité:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.EstDisponible) {
+                                        <span class="badge bg-success">Disponible</span>
+                                    } else {
+                                        <span class="badge bg-danger">Non disponible</span>
+                                    }
+                                </dd>
+                            </dl>
                         </div>
                     </div>
                     
-                    <form asp-action="Delete" method="post">
+                    <form asp-action="Delete" method="post" class="mt-4">
                         <input type="hidden" asp-for="Vin" />
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Admin" class="btn btn-secondary">Annuler</a>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Admin" class="btn btn-outline-secondary">Annuler</a>
                             <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
                         </div>
                     </form>

@@ -1,6 +1,74 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+@{
+    ViewData["Title"] = "Politique de confidentialité";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h1 class="display-6 mb-4">@ViewData["Title"]</h1>
+            
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4">Introduction</h2>
+                    <p>
+                        Chez Express Voitures, nous prenons la confidentialité de vos données très au sérieux. 
+                        Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons 
+                        vos informations personnelles lorsque vous utilisez notre site web et nos services.
+                    </p>
+                    
+                    <h2 class="h4 mt-4">Informations que nous collectons</h2>
+                    <p>
+                        Nous pouvons collecter les types d'informations suivants :
+                    </p>
+                    <ul>
+                        <li>Informations personnelles (nom, adresse e-mail, numéro de téléphone)</li>
+                        <li>Informations de connexion et d'identification</li>
+                        <li>Préférences et intérêts relatifs aux véhicules</li>
+                        <li>Données de navigation et d'utilisation du site</li>
+                    </ul>
+                    
+                    <h2 class="h4 mt-4">Comment nous utilisons vos informations</h2>
+                    <p>
+                        Nous utilisons vos informations pour :
+                    </p>
+                    <ul>
+                        <li>Vous fournir nos services et répondre à vos demandes</li>
+                        <li>Améliorer et personnaliser votre expérience sur notre site</li>
+                        <li>Vous communiquer des offres et des informations sur nos véhicules</li>
+                        <li>Assurer la sécurité et le bon fonctionnement de notre site</li>
+                    </ul>
+                    
+                    <h2 class="h4 mt-4">Protection de vos données</h2>
+                    <p>
+                        Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles 
+                        pour protéger vos données contre tout accès non autorisé, toute modification, 
+                        divulgation ou destruction.
+                    </p>
+                    
+                    <h2 class="h4 mt-4">Cookies et technologies similaires</h2>
+                    <p>
+                        Notre site utilise des cookies et d'autres technologies similaires pour améliorer 
+                        votre expérience de navigation et analyser l'utilisation du site.
+                    </p>
+                    
+                    <h2 class="h4 mt-4">Vos droits</h2>
+                    <p>
+                        Conformément aux lois sur la protection des données, vous disposez de certains droits 
+                        concernant vos données personnelles, notamment le droit d'accès, de rectification, 
+                        d'effacement et d'opposition au traitement.
+                    </p>
+                    
+                    <h2 class="h4 mt-4">Contactez-nous</h2>
+                    <p>
+                        Si vous avez des questions concernant cette politique de confidentialité ou vos données personnelles, 
+                        n'hésitez pas à nous contacter à l'adresse suivante : contact@expressvoitures.fr
+                    </p>
+                    
+                    <p class="mt-4 text-muted">
+                        <small>Dernière mise à jour : @DateTime.Now.ToString("MMMM yyyy")</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

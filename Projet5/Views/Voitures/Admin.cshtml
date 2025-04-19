@@ -6,19 +6,46 @@
 
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Administration des véhicules</h1>
+        <h1 class="display-6">Administration des véhicules</h1>
         <a asp-action="Create" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Ajouter un véhicule
         </a>
     </div>
 
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Liste des véhicules</h3>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h3 class="h5 mb-3">Total des véhicules</h3>
+                    <p class="display-4 fw-bold text-primary mb-0">@Model.Count()</p>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h3 class="h5 mb-3">Véhicules disponibles</h3>
+                    <p class="display-4 fw-bold text-success mb-0">@Model.Count(v => v.EstDisponible)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h3 class="h5 mb-3">Valeur d'inventaire</h3>
+                    <p class="display-4 fw-bold text-info mb-0">@Model.Sum(v => v.PrixAchat).ToString("C0")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0 h5">Liste des véhicules</h3>
+        </div>
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>VIN</th>
@@ -27,6 +54,7 @@
                             <th>Année</th>
                             <th>Finition</th>
                             <th>Prix d'achat</th>
+                            <th>Prix de vente</th>
                             <th>Disponibilité</th>
                             <th>Actions</th>
                         </tr>
@@ -40,6 +68,7 @@
                                 <td>@item.AnneeModel</td>
                                 <td>@item.Finition</td>
                                 <td>@item.PrixAchat.ToString("C0")</td>
+                                <td>@((item.PrixAchat + item.CoutReparation + 500).ToString("C0"))</td>
                                 <td>
                                     @if (item.EstDisponible) {
                                         <span class="badge bg-success">Disponible</span>
@@ -50,13 +79,13 @@
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a asp-action="Edit" asp-route-id="@item.Vin" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-pencil"></i> Modifier
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                         <a asp-action="Details" asp-route-id="@item.Vin" class="btn btn-sm btn-info">
-                                            <i class="bi bi-eye"></i> Détails
+                                            <i class="bi bi-eye"></i>
                                         </a>
                                         <a asp-action="Delete" asp-route-id="@item.Vin" class="btn btn-sm btn-danger">
-                                            <i class="bi bi-trash"></i> Supprimer
+                                            <i class="bi bi-trash"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -64,40 +93,6 @@
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="card mt-4">
-        <div class="card-header bg-info text-white">
-            <h3 class="mb-0">Statistiques</h3>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card bg-light">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Total des véhicules</h5>
-                            <p class="card-text fs-1">@Model.Count()</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card bg-light">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Véhicules disponibles</h5>
-                            <p class="card-text fs-1">@Model.Count(v => v.EstDisponible)</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card bg-light">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Valeur totale</h5>
-                            <p class="card-text fs-1">@Model.Sum(v => v.PrixAchat).ToString("C0")</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
