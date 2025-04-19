@@ -6,9 +6,9 @@ namespace Projet5.Filters
 {
     public class AdminAuthorizationFilter : IAsyncAuthorizationFilter
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public AdminAuthorizationFilter(UserService userService)
+        public AdminAuthorizationFilter(IUserService userService)
         {
             _userService = userService;
         }

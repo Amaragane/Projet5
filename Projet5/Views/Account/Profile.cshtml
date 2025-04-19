@@ -1,3 +1,5 @@
+@model Projet5.Models.UserModel
+
 @{
     ViewData["Title"] = "Mon profil";
 }
@@ -26,9 +28,13 @@
                             <i class="bi bi-person-circle" style="font-size: 4rem;"></i>
                         </div>
                     </div>
-                    <h5 class="card-title">@User.Identity.Name</h5>
+                    <h5 class="card-title">@Model.Identifiant</h5>
                     <p class="card-text">
                         <small class="text-muted">Membre depuis @DateTime.Now.AddMonths(-2).ToString("MMMM yyyy")</small>
+                        @if (Model.EstAdministrateur)
+                        {
+                            <br/><span class="badge bg-primary mt-2">Administrateur</span>
+                        }
                     </p>
                     <a href="#" class="btn btn-outline-primary">Modifier mes informations</a>
                 </div>

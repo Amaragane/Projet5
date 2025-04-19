@@ -2,27 +2,24 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Projet5.Data;
 using Projet5.Models;
+using Projet5.Services;
 using Projet5.ViewModels;
-using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Projet5.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ApplicationDbContext _context;
+        private readonly IAuthService _authService;
+        private readonly IUserService _userService;
 
         public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            ApplicationDbContext context)
+            IAuthService authService,
+            IUserService userService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _context = context;
+            _authService = authService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -37,24 +34,30 @@ namespace Projet5.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var (result, user) = await _authService.RegisterUserAsync(model);
 
                 if (result.Succeeded)
                 {
                     // Créer un UserMode correspondant
-                    var customUser = new UserModel
+                    bool customUserCreated = await _authService.CreateCustomUserAsync(model.Email);
+
+                    if (!customUserCreated)
                     {
-                        Identifiant = model.Email,
-                        MotDePasse = "HashedByIdentity", // Note: le mot de passe est géré par Identity
-                        EstAdministateur = false // Par défaut, les nouveaux utilisateurs ne sont pas admin
-                    };
-                    _context.Users.Add(customUser);
-                    await _context.SaveChangesAsync();
+                        ModelState.AddModelError(string.Empty, "Erreur lors de la création du profil utilisateur.");
+                        return View(model);
+                    }
 
                     // Connexion automatique après inscription
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    var signInResult = await _authService.LoginUserAsync(new LoginViewModel 
+                    { 
+                        Email = model.Email, 
+                        Password = model.Password 
+                    });
+                    
+                    if (signInResult.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
 
                 foreach (var error in result.Errors)
@@ -78,7 +81,7 @@ namespace Projet5.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _authService.LoginUserAsync(model);
                 
                 if (result.Succeeded)
                 {
@@ -98,21 +101,15 @@ namespace Projet5.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _authService.LogoutUserAsync();
             return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
-        }
-
-        // Vérification si l'utilisateur est administrateur
-        private async Task<bool> IsAdmin(string userId)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.Identifiant == userId);
-            return user != null && user.EstAdministateur;
+            var currentUser = await _userService.GetCurrentUserAsync();
+            return View(currentUser);
         }
     }
 }

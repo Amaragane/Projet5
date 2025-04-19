@@ -6,9 +6,9 @@ namespace Projet5.ViewComponents
 {
     public class AdminMenuViewComponent : ViewComponent
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public AdminMenuViewComponent(UserService userService)
+        public AdminMenuViewComponent(IUserService userService)
         {
             _userService = userService;
         }

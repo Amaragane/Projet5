@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Projet5.Data;
+using Projet5.Repositories;
 using Projet5.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +18,15 @@ builder.Services.AddControllersWithViews();
 
 // Ajouter HttpContextAccessor pour accéder au contexte HTTP
 builder.Services.AddHttpContextAccessor();
-// Enregistrer notre service personnalisé
-builder.Services.AddScoped<UserService>();
+
+// Enregistrer les repositories
+builder.Services.AddScoped<IVoitureRepository, VoitureRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Enregistrer les services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IVoitureService, VoitureService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

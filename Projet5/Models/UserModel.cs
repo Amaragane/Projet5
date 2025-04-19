@@ -14,6 +14,6 @@ namespace Projet5.Models
         [Display(Name = "Mot de passe")]
 
         public string MotDePasse { get; set; }
-        public bool EstAdministateur { get; set; }
+        public bool EstAdministrateur { get; set; }
     }
 }

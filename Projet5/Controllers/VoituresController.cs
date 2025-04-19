@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Projet5.Data;
 using Projet5.Filters;
 using Projet5.Models;
 using Projet5.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,17 +13,17 @@ namespace Projet5.Controllers
 {
     public class VoituresController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IVoitureService _voitureService;
 
-        public VoituresController(ApplicationDbContext context)
+        public VoituresController(IVoitureService voitureService)
         {
-            _context = context;
+            _voitureService = voitureService;
         }
 
         // GET: Voitures
         public async Task<IActionResult> Index()
         {
-            var voitures = await _context.Voitures.ToListAsync();
+            var voitures = await _voitureService.GetAllVoituresAsync();
             return View(voitures);
         }
 
@@ -35,8 +35,7 @@ namespace Projet5.Controllers
                 return NotFound();
             }
 
-            var voiture = await _context.Voitures
-                .FirstOrDefaultAsync(m => m.Vin == id);
+            var voiture = await _voitureService.GetVoitureByIdAsync(id.Value);
             if (voiture == null)
             {
                 return NotFound();
@@ -62,9 +61,11 @@ namespace Projet5.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(voiture);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool success = await _voitureService.CreateVoitureAsync(voiture);
+                if (success)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(voiture);
         }
@@ -79,7 +80,7 @@ namespace Projet5.Controllers
                 return NotFound();
             }
 
-            var voiture = await _context.Voitures.FindAsync(id);
+            var voiture = await _voitureService.GetVoitureByIdAsync(id.Value);
             if (voiture == null)
             {
                 return NotFound();
@@ -101,23 +102,22 @@ namespace Projet5.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                bool success = await _voitureService.UpdateVoitureAsync(id, voiture);
+                if (success)
                 {
-                    _context.Update(voiture);
-                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!VoitureExists(voiture.Vin))
+                    if (!await _voitureService.VoitureExistsAsync(voiture.Vin))
                     {
                         return NotFound();
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError("", "Une erreur s'est produite lors de la mise à jour de ce véhicule.");
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(voiture);
         }
@@ -132,8 +132,7 @@ namespace Projet5.Controllers
                 return NotFound();
             }
 
-            var voiture = await _context.Voitures
-                .FirstOrDefaultAsync(m => m.Vin == id);
+            var voiture = await _voitureService.GetVoitureByIdAsync(id.Value);
             if (voiture == null)
             {
                 return NotFound();
@@ -149,13 +148,12 @@ namespace Projet5.Controllers
         [AdminOnly]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var voiture = await _context.Voitures.FindAsync(id);
-            if (voiture != null)
+            bool success = await _voitureService.DeleteVoitureAsync(id);
+            if (!success)
             {
-                _context.Voitures.Remove(voiture);
+                return NotFound();
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -164,13 +162,11 @@ namespace Projet5.Controllers
         [AdminOnly]
         public async Task<IActionResult> Admin()
         {
-            var voitures = await _context.Voitures.ToListAsync();
+            var voitures = await _voitureService.GetAllVoituresAsync();
+            ViewBag.Statistics = await _voitureService.GetVoitureStatisticsAsync();
             return View(voitures);
         }
 
-        private bool VoitureExists(int id)
-        {
-            return _context.Voitures.Any(e => e.Vin == id);
-        }
+        // Méthode supprimée car maintenant gérée par le service
     }
 }
