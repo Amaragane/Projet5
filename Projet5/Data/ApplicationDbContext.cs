@@ -21,6 +21,17 @@ namespace Projet5.Data
             
             // Configuration spécifique pour les entités si nécessaire
             modelBuilder.Entity<VoitureModel>().HasKey(v => v.Vin);
+
+            // Définition du rôle Admin
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                }
+            );
         }
     }
 }

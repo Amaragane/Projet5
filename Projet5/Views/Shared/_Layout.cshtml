@@ -25,20 +25,16 @@
                 <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Voitures" asp-action="Index" style="color: #000;">
+                            <a class="nav-link btn btn-link" asp-area="" asp-controller="Voitures" asp-action="Index" style="color: #000;">
                                 Accueil
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Voitures" asp-action="Index" style="color: #000;">
-                                Nos véhicules
-                            </a>
-                        </li>
+
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Voitures" asp-action="Admin" style="color: #000;">
-                                    Administration
+                        <a class="nav-link btn btn-link" asp-area="" asp-controller="Voitures" asp-action="Admin" style="color: #000;">
+                                    Ajouter une voiture
                                 </a>
                             </li>
                         }
@@ -46,7 +42,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Voitures", new { area = "" })">
-                                    <button type="submit" class="nav-link btn btn-link" style="color: #000; background: none; border: none; padding: 0;">
+                                    <button type="submit" class="nav-link btn btn-link" style="color: #000;">
                                         Déconnexion
                                     </button>
                                 </form>

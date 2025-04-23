@@ -54,7 +54,7 @@ main {
 }
 
 .btn-primary:hover {
-    background-color: #0b5ed7;
+    background-color: #0b0fbb;
 }
 
 /* Style pour les cartes de voitures */
@@ -173,4 +173,7 @@ footer a:hover {
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
+}
+.nav-link:hover {
+    border-color: rgb(0, 0, 0, 0,10);
 }

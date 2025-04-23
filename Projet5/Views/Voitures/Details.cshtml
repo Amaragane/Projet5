@@ -1,74 +1,75 @@
 @model Projet5.Models.VoitureModel
 
 @{
-    ViewData["Title"] = "Détails du véhicule";
+   ViewData["Title"] = "Détails du véhicule";
 }
 
 <div class="container">
-    <div class="row mt-4">
-        <div class="col-md-12 mb-4">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-controller="Voitures" asp-action="Index">Accueil</a></li>
-                    <li class="breadcrumb-item"><a asp-action="Index">Véhicules</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">@Model.Marque @Model.Modele</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+   <div class="row mt-4">
+      <div class="col-md-12 mb-4">
+         <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+               <li class="breadcrumb-item"><a asp-controller="Voitures" asp-action="Index">Accueil</a></li>
+               <li class="breadcrumb-item"><a asp-action="Index">Véhicules</a></li>
+               <li class="breadcrumb-item active" aria-current="page">@Model.Marque @Model.Modele</li>
+            </ol>
+         </nav>
+      </div>
+   </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl)) {
-                <img src="@Model.ImageUrl" alt="@Model.Marque @Model.Modele" class="img-fluid rounded shadow" style="max-height: 400px; width: 100%; object-fit: cover;">
+   <div class="row">
+      <div class="col-md-6">
+         @if (!string.IsNullOrEmpty(Model.ImageUrl)) {
+            <img src="@Model.ImageUrl" alt="@Model.Marque @Model.Modele" class="img-fluid rounded shadow" style="max-height: 400px; width: 100%; object-fit: cover;">
+         } else {
+            <div class="bg-light text-center p-5 rounded">
+               <i class="bi bi-image" style="font-size: 8rem;"></i>
+               <p>Image non disponible</p>
+            </div>
+         }
+      </div>
+      <div class="col-md-6">
+         <h2>@Model.Marque @Model.Modele</h2>
+         <h4 class="text-muted">@Model.Finition (@Model.AnneeModel)</h4>
+
+         <div class="my-4">
+            @if (Model.EstDisponible) {
+               <span class="badge bg-success p-2">Disponible</span>
             } else {
-                <div class="bg-light text-center p-5 rounded">
-                    <i class="bi bi-image" style="font-size: 8rem;"></i>
-                    <p>Image non disponible</p>
-                </div>
+               <span class="badge bg-danger p-2">Non disponible</span>
             }
-        </div>
-        <div class="col-md-6">
-            <h2>@Model.Marque @Model.Modele</h2>
-            <h4 class="text-muted">@Model.Finition (@Model.AnneeModel)</h4>
-            
-            <div class="my-4">
-                @if (Model.EstDisponible) {
-                    <span class="badge bg-success p-2">Disponible</span>
-                } else {
-                    <span class="badge bg-danger p-2">Non disponible</span>
-                }
+         </div>
+
+         <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+               Caractéristiques
             </div>
-            
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    Caractéristiques
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Année du modèle:</span>
-                        <strong>@Model.AnneeModel</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Finition:</span>
-                        <strong>@Model.Finition</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Date d'achat:</span>
-                        <strong>@Model.DateAchat.ToString("dd/MM/yyyy")</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Disponible depuis:</span>
-                        <strong>@Model.DateDisponibilité.ToString("dd/MM/yyyy")</strong>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="d-grid gap-2">
-                <button type="button" class="btn btn-express btn-lg" data-bs-toggle="modal" data-bs-target="#contactModal">
-                    Contacter pour ce véhicule
-                </button>
-                <a asp-action="Index" class="btn btn-outline-secondary">Retour à la liste</a>
+            <ul class="list-group list-group-flush">
+               <li class="list-group-item d-flex justify-content-between">
+                  <span>Année du modèle:</span>
+                  <strong>@Model.AnneeModel</strong>
+               </li>
+               <li class="list-group-item d-flex justify-content-between">
+                  <span>Finition:</span>
+                  <strong>@Model.Finition</strong>
+               </li>
+               <li class="list-group-item d-flex justify-content-between">
+                  <span>Date d'achat:</span>
+                  <strong>@Model.DateAchat.ToString("dd/MM/yyyy")</strong>
+               </li>
+
+            </ul>
+         </div>
+
+         <div class="d-grid gap-2">
+            <button type="button" class="btn btn-express btn-lg" data-bs-toggle="modal" data-bs-target="#contactModal">
+               Contacter pour ce véhicule
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Retour à la liste</a>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+               <a asp-action="Edit" asp-route-id="@Model.Vin" class="btn btn-primary">Editer la voiture</a>
+            }
             </div>
         </div>
     </div>

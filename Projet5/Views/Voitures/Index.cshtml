@@ -1,45 +1,64 @@
 @model IEnumerable<Projet5.Models.VoitureModel>
 
 @{
-    ViewData["Title"] = "Nos voitures";
+   ViewData["Title"] = "Nos voitures";
 }
 
 <div class="container mt-4">
-    <h1 class="text-center" style="font-size: 28px; margin-bottom: 20px;">Nos voitures</h1>
-    
-    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-    {
-        <div class="text-center mb-5">
-            <a asp-controller="Voitures" asp-action="Create" class="btn btn-express">Ajouter une voiture</a>
-        </div>
-    }
+   <h1 class="text-center" style="font-size: 28px; margin-bottom: 20px;">Nos voitures</h1>
 
-    <div class="row">
-        @foreach (var item in Model)
+   @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+   {
+      <div class="text-center mb-5">
+         <a asp-controller="Voitures" asp-action="Create" class="btn btn-express">Ajouter une voiture</a>
+      </div>
+   }
+
+   <div class="row">
+      @if(Model.Count()==0)
+      {
+          <span>Aucun vehicule disponible</span>
+      }
+      else
+      {
+         
+      @foreach (var item in Model)
         {
             <div class="col-md-6 mb-4">
-                <div class="card border-0">
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="@item.ImageUrl" alt="@item.Marque @item.Modele" class="card-img-top" style="height: 220px; object-fit: cover;">
-                    }
-                    else
-                    {
-                        <div class="bg-light text-center p-5" style="height: 220px;">
-                            <i class="bi bi-image" style="font-size: 4rem;"></i>
-                            <p>Image non disponible</p>
+                <a asp-controller="Voitures" asp-action="Details" asp-route-id="@item.Vin" class="text-decoration-none text-dark">
+                <div class="card border-0 h-100" style="cursor: pointer;">
+                    <div class="d-flex flex-row">
+                     <div class="card-body flex-row" style="width: 300px;">
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" alt="@item.Marque @item.Modele" class="img-fluid rounded" style="height: 150px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="bg-light text-center p-3" style="height: 150px;">
+                                    <i class="bi bi-image" style="font-size: 3rem;"></i>
+                                    <p>Image non disponible</p>
+                                </div>
+                            }
                         </div>
-                    }
-                    <div class="card-body px-0">
-                        <h5 class="mb-2">Prix de vente</h5>
-                        <p class="mb-1">@item.Marque</p>
-                        <p class="mb-1">@item.Modele</p>
-                        <p class="mb-1">@item.AnneeModel</p>
-                        <p class="mb-1">@item.Finition</p>
-                        <p class="mb-1">@((item.PrixAchat + item.CoutReparation + 500).ToString("C0"))</p>
+                        <div class="card-body flex-row align-content-center">
+                            <p class="mb-1">@((item.PrixAchat + item.CoutReparation + 500).ToString("C0"))</p>
+                            <p class="mb-1">@item.AnneeModel</p>
+                            <p class="mb-1">@item.Marque</p>
+                            <p class="mb-1">@item.Modele</p>
+                            <p class="mb-1">@item.Finition</p>
+                            <div class="mb-1 d-flex align-items-center">
+                                <span class="me-2">Disponibilité:</span>
+                                <div class="form-check form-check-inline m-0 p-0">
+                                    <div style="width: 20px; height: 20px; border-radius: 50%; background-color: @(item.EstDisponible ? "#28a745" : "#dc3545");"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                </a>
             </div>
         }
+      }
     </div>
 </div>
