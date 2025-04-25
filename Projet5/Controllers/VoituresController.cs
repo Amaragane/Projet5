@@ -174,8 +174,23 @@ namespace Projet5.Controllers
             {
                 return NotFound();
             }
-            
-            
+
+            try
+            {
+                string imagePath = voiture.ImageUrl.TrimStart('/');
+                string fullPath = Path.Combine(_webHostEnvironment.WebRootPath, imagePath);
+                // Vérifier si le fichier existe avant de le supprimer
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log l'erreur mais continuer la suppression de l'enregistrement
+                // Vous pouvez utiliser ILogger ici pour enregistrer l'exception
+                Console.WriteLine($"Erreur lors de la suppression de l'image: {ex.Message}");
+            }
             bool success = await _voitureService.DeleteVoitureAsync(id);
             if (!success)
             {
