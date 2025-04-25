@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/express-voitures.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Projet5.styles.css" asp-append-version="true" />
 </head>
 <body class="bg-white">
     <header class="bg-white">
@@ -33,7 +32,7 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                        <a class="nav-link btn btn-link" asp-area="" asp-controller="Voitures" asp-action="Admin" style="color: #000;">
+                        <a class="nav-link btn btn-link" asp-action="Create" style="color: #000;">
                                     Ajouter une voiture
                                 </a>
                             </li>
@@ -41,15 +40,15 @@
                         <li class="nav-item">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Voitures", new { area = "" })">
-                                    <button type="submit" class="nav-link btn btn-link" style="color: #000;">
+                                <form class="d-flex justify-content-center align-items-center" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Voitures", new { area = "" })" method="post">
+                                    <button id="logoutBtn" type="submit" class="nav-link btn btn-link w-100 text-center" style="color: #000; ">
                                         Déconnexion
                                     </button>
                                 </form>
                             }
                             else
                             {
-                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" style="color: #000;">
+                                <a class="nav-link btn btn-link" asp-area="Identity" asp-page="/Account/Login" style="color: #000;">
                                     Connexion
                                 </a>
                             }

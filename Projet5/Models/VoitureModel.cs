@@ -46,7 +46,7 @@ namespace Projet5.Models
         public bool EstDisponible { get; set; }
 
         [Display(Name = "Image")]
-        [Required(ErrorMessage = "L'image est requise.")]
+        //[Required(ErrorMessage = "L'image est requise.")]
         public string? ImageUrl { get; set; }
 
         // Autres propriétés spécifiques à votre modèle de voiture

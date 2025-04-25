@@ -174,6 +174,35 @@ footer a:hover {
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
 }
-.nav-link:hover {
-    border-color: rgb(0, 0, 0, 0,10);
+.btn-link:hover {
+    border-color:#000000;
+
+}
+#logoutBtn:hover {
+    border-color: #000000;
+}
+#visuelBtn {
+    font-size: 30px;
+    color: #000000 ;
+    border-color: #000000;
+    
+}
+#visuelBtn:hover {
+    background-color:#f1d8b5
+}
+#visuel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#visuelBtn:active {
+        background-color: #ffffff
+}
+.form-control > span {
+    padding-left: 10px;
+    color: #999;
+    user-select: none;
+}
+#fileInput{
+    display:none;
 }

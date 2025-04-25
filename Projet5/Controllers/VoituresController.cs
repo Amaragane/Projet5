@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Projet5.Models;
@@ -13,10 +14,12 @@ namespace Projet5.Controllers
     public class VoituresController : Controller
     {
         private readonly IVoitureService _voitureService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public VoituresController(IVoitureService voitureService)
+        public VoituresController(IVoitureService voitureService, IWebHostEnvironment webHostEnvironment)
         {
             _voitureService = voitureService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Voitures
@@ -55,14 +58,36 @@ namespace Projet5.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles ="Admin")]
         
-        public async Task<IActionResult> Create(VoitureModel voiture)
+        public async Task<IActionResult> Create(VoitureModel voiture, IFormFile ImageUrl)
         {
+
             if (ModelState.IsValid)
             {
+                if (ImageUrl != null && ImageUrl.Length > 0)
+                {
+                    // Générer un nom de fichier unique
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageUrl.FileName);
+
+                    // Déterminer le chemin où sauvegarder l'image
+                    string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "voitures", fileName);
+
+                    // Créer le dossier si nécessaire
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+                    // Sauvegarder l'image
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await ImageUrl.CopyToAsync(stream);
+                    }
+
+                    // Stocker le chemin de l'image dans votre modèle
+                    voiture.ImageUrl = "/images/voitures/" + fileName;
+                }
                 bool success = await _voitureService.CreateVoitureAsync(voiture);
                 if (success)
                 {
-                    return RedirectToAction(nameof(Index));
+                    // Rediriger vers la page de confirmation d'ajout
+                    return View("Confirmations/AjoutConfirmation", voiture);
                 }
             }
             return View(voiture);
@@ -143,13 +168,22 @@ namespace Projet5.Controllers
         [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Récupérer les informations de la voiture avant de la supprimer
+            var voiture = await _voitureService.GetVoitureByIdAsync(id);
+            if (voiture == null)
+            {
+                return NotFound();
+            }
+            
+            
             bool success = await _voitureService.DeleteVoitureAsync(id);
             if (!success)
             {
                 return NotFound();
             }
             
-            return RedirectToAction(nameof(Index));
+            // Rediriger vers la page de confirmation de suppression
+            return View("Confirmations/SuppressionConfirmation",voiture);
         }
 
         // GET: Voitures/Admin

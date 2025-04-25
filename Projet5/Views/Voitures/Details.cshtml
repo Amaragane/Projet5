@@ -1,26 +1,24 @@
 @model Projet5.Models.VoitureModel
 
 @{
-   ViewData["Title"] = "Détails du véhicule";
+   ViewData["Title"] = $"{Model.Marque} {Model.Modele} {Model.AnneeModel}";
 }
 
-<div class="container">
-   <div class="row mt-4">
-      <div class="col-md-12 mb-4">
-         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-               <li class="breadcrumb-item"><a asp-controller="Voitures" asp-action="Index">Accueil</a></li>
-               <li class="breadcrumb-item"><a asp-action="Index">Véhicules</a></li>
-               <li class="breadcrumb-item active" aria-current="page">@Model.Marque @Model.Modele</li>
-            </ol>
-         </nav>
+<div class="container mt-4">
+   <!-- Bouton retour stylisé comme dans l'image -->
+   <div class="row mb-4">
+      <div class="col-12">
+         <a asp-action="Index" class="text-decoration-none" style="color: #333;">
+            <span>&#8592;</span> Retour
+         </a>
       </div>
    </div>
 
    <div class="row">
-      <div class="col-md-6">
+      <!-- Colonne de gauche avec l'image -->
+      <div class="col-md-7 mb-4">
          @if (!string.IsNullOrEmpty(Model.ImageUrl)) {
-            <img src="@Model.ImageUrl" alt="@Model.Marque @Model.Modele" class="img-fluid rounded shadow" style="max-height: 400px; width: 100%; object-fit: cover;">
+            <img src="@Model.ImageUrl" alt="@Model.Marque @Model.Modele" class="img-fluid rounded" style="width: 100%; object-fit: cover;">
          } else {
             <div class="bg-light text-center p-5 rounded">
                <i class="bi bi-image" style="font-size: 8rem;"></i>
@@ -28,120 +26,48 @@
             </div>
          }
       </div>
-      <div class="col-md-6">
-         <h2>@Model.Marque @Model.Modele</h2>
-         <h4 class="text-muted">@Model.Finition (@Model.AnneeModel)</h4>
 
-         <div class="my-4">
-            @if (Model.EstDisponible) {
-               <span class="badge bg-success p-2">Disponible</span>
-            } else {
-               <span class="badge bg-danger p-2">Non disponible</span>
-            }
+      <!-- Colonne de droite avec les informations -->
+      <div class="col-md-5">
+         <!-- Message pour l'admin -->
+         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+         {
+            <div class="mb-4">
+               <p style="color: #333; margin-bottom: 5px;">Vous avez publié cette annonce, vous pouvez le :</p>
+               <div>
+                  <a asp-action="Edit" asp-route-id="@Model.Vin" class="text-decoration-none me-2" style="color: #6c757d;">modifier</a>
+                  <form method="post" asp-action="Delete" asp-route-id="@Model.Vin" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');">
+                     <button type="submit" class="text-decoration-none" style="color: #dc3545; background: none; border: none; padding: 0; cursor: pointer;">supprimer</button>
+                  </form>
+               </div>
+            </div>
+         }
+
+         <!-- Prix de vente -->
+         <h2 class="mb-4" style="color: #333; font-family: 'Times New Roman', serif;">Prix de vente</h2>
+         <h3 class="mb-4" style="color: #E3A33B; font-weight: bold;">@((Model.PrixAchat + Model.CoutReparation + 500).ToString("C0"))</h3>
+
+         <!-- Détails de la voiture dans un format plus simple -->
+         <div class="mb-3">
+            <p class="mb-2" style="color: #555;">Année</p>
+            <p class="mb-3" style="font-weight: 500;">@Model.AnneeModel</p>
          </div>
 
-         <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-primary text-white">
-               Caractéristiques
-            </div>
-            <ul class="list-group list-group-flush">
-               <li class="list-group-item d-flex justify-content-between">
-                  <span>Année du modèle:</span>
-                  <strong>@Model.AnneeModel</strong>
-               </li>
-               <li class="list-group-item d-flex justify-content-between">
-                  <span>Finition:</span>
-                  <strong>@Model.Finition</strong>
-               </li>
-               <li class="list-group-item d-flex justify-content-between">
-                  <span>Date d'achat:</span>
-                  <strong>@Model.DateAchat.ToString("dd/MM/yyyy")</strong>
-               </li>
-
-            </ul>
+         <div class="mb-3">
+            <p class="mb-2" style="color: #555;">Marque</p>
+            <p class="mb-3" style="font-weight: 500;">@Model.Marque</p>
          </div>
 
-         <div class="d-grid gap-2">
-            <button type="button" class="btn btn-express btn-lg" data-bs-toggle="modal" data-bs-target="#contactModal">
-               Contacter pour ce véhicule
-            </button>
-            <a asp-action="Index" class="btn btn-outline-secondary">Retour à la liste</a>
-            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-            {
-               <a asp-action="Edit" asp-route-id="@Model.Vin" class="btn btn-primary">Editer la voiture</a>
-            }
-            </div>
-        </div>
-    </div>
-    
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light">
-                    <h4 class="mb-0">Informations techniques</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h5>Maintenance</h5>
-                            <p>
-                                <strong>Réparations effectuées:</strong> @Model.Reparation
-                            </p>
-                            <p>
-                                <strong>Coût des réparations:</strong> @Model.CoutReparation.ToString("C0")
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <h5>Information d'achat</h5>
-                            <p>
-                                <strong>Prix d'achat:</strong> @Model.PrixAchat.ToString("C0")
-                            </p>
-                            <p>
-                                <strong>Prix de vente:</strong> @((Model.PrixAchat + Model.CoutReparation + 500).ToString("C0"))
-                            </p>
-                            <p>
-                                <strong>Identifiant (VIN):</strong> @Model.Vin
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+         <div class="mb-3">
+            <p class="mb-2" style="color: #555;">Modèle</p>
+            <p class="mb-3" style="font-weight: 500;">@Model.Modele</p>
+         </div>
 
-<!-- Modal de contact -->
-<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="contactModalLabel">Contacter pour @Model.Marque @Model.Modele</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nom complet</label>
-                        <input type="text" class="form-control" id="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Téléphone</label>
-                        <input type="tel" class="form-control" id="phone">
-                    </div>
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" rows="4" required></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-express">Envoyer</button>
-            </div>
-        </div>
-    </div>
+         <div class="mb-3">
+            <p class="mb-2" style="color: #555;">Finition</p>
+            <p class="mb-3" style="font-weight: 500;">@Model.Finition</p>
+         </div>
+
+      </div>
+   </div>
 </div>
