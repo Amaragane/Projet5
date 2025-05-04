@@ -26,7 +26,7 @@ namespace Projet5.Models
 
         [Display(Name = "Date de disponibilité")]
         [Required(ErrorMessage = "Le champ date de disponibilité est requis.")]
-        public DateOnly DateDisponibilité { get; set; }
+        public DateOnly? DateDisponibilité { get; set; }
 
         [Required(ErrorMessage = "Le champ prix d'achat est requis.")]
         [Display(Name = "Prix d'achat")]
@@ -40,6 +40,7 @@ namespace Projet5.Models
         [Display(Name = "Cout des répaaration")]
         [Required(ErrorMessage = "Le champ Cout des réparation est requis.")]
         public int CoutReparation { get; set; }
+        public DateOnly? DateVente { get; set; }
 
         [Display(Name = "Disponibilité")]
         [Required(ErrorMessage = "La disponibilité est requise.")]

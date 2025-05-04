@@ -33,7 +33,9 @@ main {
     font-weight: 700;
     font-size: 1.5rem;
 }
-
+#Home:hover, #disconet:hover, #connect:hover, #addCar:hover {
+    font-weight: 500;
+}
 .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 1.5rem;

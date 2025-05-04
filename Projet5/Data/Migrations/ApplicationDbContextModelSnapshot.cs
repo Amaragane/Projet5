@@ -51,8 +51,8 @@ namespace Projet5.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "28d32087-547f-49ea-9065-e456d5ee1a68",
-                            ConcurrencyStamp = "fcdc8dee-2982-4924-88cf-b24a83d53e38",
+                            Id = "b27550d2-d0a7-465f-b224-2e1ee99d3b59",
+                            ConcurrencyStamp = "6c41314a-b9b2-4110-b9d7-246191945505",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -250,7 +250,11 @@ namespace Projet5.Data.Migrations
                     b.Property<DateOnly>("DateAchat")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("DateDisponibilité")
+                    b.Property<DateOnly?>("DateDisponibilité")
+                        .IsRequired()
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("DateVente")
                         .HasColumnType("date");
 
                     b.Property<bool>("EstDisponible")
@@ -261,7 +265,6 @@ namespace Projet5.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Marque")

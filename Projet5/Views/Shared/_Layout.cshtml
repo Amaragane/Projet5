@@ -14,7 +14,7 @@
     <header class="bg-white">
         <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-none">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Voitures" asp-action="Index" style="font-weight: 400; color: #E3A33B;">
+            <a class="navbar-brand" asp-area="" asp-controller="Voitures" asp-action="Index" style="font-weight: 400; color:#000;">
                     Express Voitures
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -24,15 +24,15 @@
                 <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link btn btn-link" asp-area="" asp-controller="Voitures" asp-action="Index" style="color: #000;">
+                            <a class="nav-link" id="Home" asp-area="" asp-controller="Voitures" asp-action="Index" style="color: #000;">
                                 Accueil
                             </a>
                         </li>
 
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                        <a class="nav-link btn btn-link" asp-action="Create" style="color: #000;">
+                        <a class="nav-link" id="addCar" asp-action="Create" style="color: #000;">
                                     Ajouter une voiture
                                 </a>
                             </li>
@@ -41,14 +41,14 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <form class="d-flex justify-content-center align-items-center" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Voitures", new { area = "" })" method="post">
-                                    <button id="logoutBtn" type="submit" class="nav-link btn btn-link w-100 text-center" style="color: #000; ">
+                                    <button id="disconect" type="submit" class="nav-link w-100 text-center" style="color: #000; ">
                                         Déconnexion
                                     </button>
                                 </form>
                             }
                             else
                             {
-                                <a class="nav-link btn btn-link" asp-area="Identity" asp-page="/Account/Login" style="color: #000;">
+                        <a class="nav-link " id="connect" asp-area="Identity" asp-page="/Account/Login" style="color: #000;">
                                     Connexion
                                 </a>
                             }

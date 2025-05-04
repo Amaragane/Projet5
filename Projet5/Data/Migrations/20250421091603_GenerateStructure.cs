@@ -22,10 +22,11 @@ namespace Projet5.Data.Migrations
                     AnneeModel = table.Column<int>(type: "int", nullable: false),
                     Finition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateAchat = table.Column<DateOnly>(type: "date", nullable: false),
-                    DateDisponibilité = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateDisponibilité = table.Column<DateOnly>(type: "date", nullable: true),
                     PrixAchat = table.Column<int>(type: "int", nullable: false),
                     Reparation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CoutReparation = table.Column<int>(type: "int", nullable: false),
+                    DateVente = table.Column<DateOnly>(type: "date", nullable: true),
                     EstDisponible = table.Column<bool>(type: "bit", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -34,10 +35,6 @@ namespace Projet5.Data.Migrations
                     table.PrimaryKey("PK_Voitures", x => x.Vin);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "28d32087-547f-49ea-9065-e456d5ee1a68", "fcdc8dee-2982-4924-88cf-b24a83d53e38", "Admin", "ADMIN" });
         }
 
         /// <inheritdoc />
@@ -46,10 +43,7 @@ namespace Projet5.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Voitures");
 
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "28d32087-547f-49ea-9065-e456d5ee1a68");
+
         }
     }
 }

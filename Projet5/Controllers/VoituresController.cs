@@ -63,6 +63,11 @@ namespace Projet5.Controllers
 
             if (ModelState.IsValid)
             {
+                if(voiture.Marque == voiture.Modele)
+                {
+                    ModelState.AddModelError("Marque", "La marque et le modèle ne peuvent pas être identiques.");
+                    return View(voiture);
+                }
                 if (ImageUrl != null && ImageUrl.Length > 0)
                 {
                     // Générer un nom de fichier unique
@@ -72,7 +77,7 @@ namespace Projet5.Controllers
                     string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "voitures", fileName);
 
                     // Créer le dossier si nécessaire
-                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
 
                     // Sauvegarder l'image
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -177,7 +182,7 @@ namespace Projet5.Controllers
 
             try
             {
-                string imagePath = voiture.ImageUrl.TrimStart('/');
+                string imagePath = voiture.ImageUrl!.TrimStart('/');
                 string fullPath = Path.Combine(_webHostEnvironment.WebRootPath, imagePath);
                 // Vérifier si le fichier existe avant de le supprimer
                 if (System.IO.File.Exists(fullPath))

@@ -32,6 +32,7 @@ namespace Projet5.Data
                     ConcurrencyStamp = Guid.NewGuid().ToString()
                 }
             );
+
         }
     }
 }

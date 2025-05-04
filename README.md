@@ -15,7 +15,6 @@ Express Voitures est une application web développée avec ASP.NET Core qui perm
 - Ajout de nouveaux véhicules
 - Modification des informations des véhicules existants
 - Suppression des véhicules
-- Tableau de bord avec statistiques
 
 ## Technologies utilisées
 
@@ -41,11 +40,15 @@ Express Voitures est une application web développée avec ASP.NET Core qui perm
    ```
    dotnet restore
    ```
+    Si vous utilisez Visual Studio, ouvrez le projet et restaurez les packages via la console NuGet.
+    ```
+    Restore-Package
+    ```
 
 3. Configurez la chaîne de connexion dans `appsettings.json`
    ```json
    "ConnectionStrings": {
-     "DefaultConnection": "Server=VOTRE_SERVEUR;Database=ExpressVoitures;User ID=VOTRE_UTILISATEUR;Password=VOTRE_MOT_DE_PASSE;TrustServerCertificate=True;"
+     "DefaultConnection": "Server=VOTRE_SERVEUR;Database=ExpressVoitures;TrustServerCertificate=True;"
    }
    ```
 
@@ -53,6 +56,10 @@ Express Voitures est une application web développée avec ASP.NET Core qui perm
    ```
    dotnet ef database update
    ```
+   console NuGet.
+    ```
+    Update-database
+    ```
 
 5. Exécutez l'application
    ```
@@ -62,13 +69,11 @@ Express Voitures est une application web développée avec ASP.NET Core qui perm
 ## Structure du projet
 
 - **Controllers/** - Contrôleurs de l'application
-  - **AccountController.cs** - Gère l'authentification
   - **HomeController.cs** - Gère les pages d'accueil
   - **VoituresController.cs** - Gère les opérations CRUD sur les véhicules
 
 - **Models/** - Classes modèles
   - **VoitureModel.cs** - Modèle pour les véhicules
-  - **UserModel.cs** - Modèle pour les utilisateurs personnalisés
 
 - **Views/** - Templates Razor
   - **Account/** - Vues liées à l'authentification
@@ -89,11 +94,9 @@ Express Voitures est une application web développée avec ASP.NET Core qui perm
 1. Accédez à la page d'accueil
 2. Naviguez vers "Nos véhicules" pour voir la liste des véhicules disponibles
 3. Cliquez sur un véhicule pour en voir les détails
-4. Créez un compte ou connectez-vous pour accéder à plus de fonctionnalités
 
 ### Administrateurs
 1. Connectez-vous avec un compte administrateur
-2. Accédez à l'onglet "Administration"
 3. Gérez les véhicules (ajout, modification, suppression)
 4. Consultez les statistiques du parc automobile
 
@@ -102,9 +105,13 @@ Express Voitures est une application web développée avec ASP.NET Core qui perm
 Pour promouvoir un utilisateur au rôle d'administrateur, exécutez la requête SQL suivante dans SSMS :
 
 ```sql
-UPDATE Users
-SET EstAdministateur = 1
-WHERE Identifiant = 'email@example.com';
+DECLARE @userId nvarchar(450) = (SELECT [Id] FROM AspNetUsers WHERE NormalizedEmail = 'exemple@exemple.com'); -- email de l'administrateur
+DECLARE @roleId nvarchar(450) = (SELECT [Id] FROM AspNetRoles WHERE NormalizedName = 'ADMIN'); -- Identifiant du rôle
+
+-- Insérer les enregistrements dans AspNetUserRoles pour l'utilisateur exemple@exemple.com
+INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@userId, @roleId);
+
+
 ```
 
 Remplacez `email@example.com` par l'adresse email de l'utilisateur à promouvoir.

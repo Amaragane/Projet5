@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Dans un cas réel, vous utiliseriez une API pour télécharger l'image sur le serveur
             // Pour cette démonstration, nous utiliserons FileReader pour une prévisualisation locale
 
-            reader.onloadend = function (e) {
+            reader.onload = function (e) {
                 preview.innerHTML = "";
                 
                 const img = document.createElement('img');
