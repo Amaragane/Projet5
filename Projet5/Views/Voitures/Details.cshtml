@@ -30,7 +30,7 @@
       <!-- Colonne de droite avec les informations -->
       <div class="col-md-5">
          <!-- Message pour l'admin -->
-         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+         @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
          {
             <div class="mb-4">
                <p style="color: #333; margin-bottom: 5px;">Vous avez publié cette annonce, vous pouvez le :</p>
@@ -44,26 +44,26 @@
          }
 
          <!-- Prix de vente -->
-         <h2 class="mb-4" style="color: #333; font-family: 'Times New Roman', serif;">Prix de vente</h2>
+         <h2 aria-label="Prix de vente" class="mb-4" style="color: #333; font-family: 'Times New Roman', serif;">Prix de vente</h2>
          <h3 class="mb-4" style="color: #E3A33B; font-weight: bold;">@((Model.PrixAchat + Model.CoutReparation + 500).ToString("C0"))</h3>
 
          <!-- Détails de la voiture dans un format plus simple -->
-         <div class="mb-3">
+         <div aria-label="Année" class="mb-3">
             <p class="mb-2" style="color: #555;">Année</p>
             <p class="mb-3" style="font-weight: 500;">@Model.AnneeModel</p>
          </div>
 
-         <div class="mb-3">
+         <div aria-label="Marque" class="mb-3">
             <p class="mb-2" style="color: #555;">Marque</p>
             <p class="mb-3" style="font-weight: 500;">@Model.Marque</p>
          </div>
 
-         <div class="mb-3">
+         <div aria-label="Modèle" class="mb-3">
             <p class="mb-2" style="color: #555;">Modèle</p>
             <p class="mb-3" style="font-weight: 500;">@Model.Modele</p>
          </div>
 
-         <div class="mb-3">
+         <div aria-label="Finition" class="mb-3">
             <p class="mb-2" style="color: #555;">Finition</p>
             <p class="mb-3" style="font-weight: 500;">@Model.Finition</p>
          </div>

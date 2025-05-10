@@ -11,31 +11,31 @@
    <form asp-action="Create" method="post" enctype="multipart/form-data">
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-      <div class="mb-4">
+      <div aria-label="Prix" class="mb-4">
          <label asp-for="PrixAchat" class="form-label" style="color: #333; font-weight: 500;">Prix de vente</label>
          <input asp-for="PrixAchat" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
          <span asp-validation-for="PrixAchat" class="text-danger"></span>
       </div>
 
-      <div class="mb-4">
+      <div aria-label="Annee" class="mb-4">
          <label asp-for="AnneeModel" class="form-label" style="color: #333; font-weight: 500;">Année</label>
          <input asp-for="AnneeModel" class="form-control" type="number" min="1980" max="@DateTime.Now.Year" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
          <span asp-validation-for="AnneeModel" class="text-danger"></span>
       </div>
 
-      <div class="mb-4">
+      <div aria-label="Marque"class="mb-4">
          <label asp-for="Marque" class="form-label" style="color: #333; font-weight: 500;">Marque</label>
          <input asp-for="Marque" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
          <span asp-validation-for="Marque" class="text-danger"></span>
       </div>
 
-      <div class="mb-4">
+      <div aria-label="Modele"class="mb-4">
          <label asp-for="Modele" class="form-label" style="color: #333; font-weight: 500;">Modèle</label>
          <input asp-for="Modele" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
          <span asp-validation-for="Modele" class="text-danger"></span>
       </div>
 
-      <div class="mb-4">
+      <div aria-label="finition" class="mb-4">
          <label asp-for="Finition" class="form-label" style="color: #333; font-weight: 500;">Finition</label>
          <input asp-for="Finition" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
          <span asp-validation-for="Finition" class="text-danger"></span>
@@ -47,7 +47,11 @@
          <div id="visuel" class="form-control " style="border-radius: 0; height: 120px; border: 1px solid #ddd; ">
 
             <a id="visuelBtn" class="btn" >+</a>
-            <div id="preview" style=" max-width: 150px;"><span style="margin-left:10px">Ajouter une image</span></div>
+            <div id="image"style=" max-width: 150px;">
+               <img aria-label="image de la voiture" id="preview" src="" style="max-height: 90px; max-width: 90%; object-fit: contain; cursor: pointer;" />
+               <span style="margin-left:10px">Ajouter une image</span>
+            </div>
+
 
 
 

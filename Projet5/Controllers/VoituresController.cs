@@ -119,7 +119,7 @@ namespace Projet5.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> Edit(int id, VoitureModel voiture)
+        public async Task<IActionResult> Edit(int id, VoitureModel voiture, IFormFile ImageUrl)
         {
             if (id != voiture.Vin)
             {
@@ -128,6 +128,26 @@ namespace Projet5.Controllers
 
             if (ModelState.IsValid)
             {
+                if (ImageUrl != null && ImageUrl.Length > 0)
+                {
+                    // Générer un nom de fichier unique
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageUrl.FileName);
+
+                    // Déterminer le chemin où sauvegarder l'image
+                    string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "voitures", fileName);
+
+                    // Créer le dossier si nécessaire
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+
+                    // Sauvegarder l'image
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await ImageUrl.CopyToAsync(stream);
+                    }
+
+                    // Stocker le chemin de l'image dans votre modèle
+                    voiture.ImageUrl = "/images/voitures/" + fileName;
+                }
                 bool success = await _voitureService.UpdateVoitureAsync(id, voiture);
                 if (success)
                 {

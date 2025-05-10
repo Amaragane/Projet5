@@ -8,57 +8,49 @@
     <h1 style="font-family: 'Times New Roman', serif; color: #8B7765; font-style: italic; margin-bottom: 5px;">Modifier une voiture</h1>
     <p style="color: #777; font-size: 14px; margin-bottom: 30px;">tous les champs sont obligatoires</p>
 
-    <form asp-action="Edit" method="post">
+   <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Vin" />
-        
-        <div class="mb-4">
+
+      <div aria-label="Prix" class="mb-4">
             <label asp-for="PrixAchat" class="form-label" style="color: #333; font-weight: 500;">Prix de vente</label>
             <input asp-for="PrixAchat" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
             <span asp-validation-for="PrixAchat" class="text-danger"></span>
         </div>
-        
-        <div class="mb-4">
+
+      <div aria-label="Annee" class="mb-4">
             <label asp-for="AnneeModel" class="form-label" style="color: #333; font-weight: 500;">Année</label>
             <input asp-for="AnneeModel" class="form-control" type="number" min="1980" max="@DateTime.Now.Year" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
             <span asp-validation-for="AnneeModel" class="text-danger"></span>
         </div>
-        
-        <div class="mb-4">
+
+      <div aria-label="Marque" class="mb-4">
             <label asp-for="Marque" class="form-label" style="color: #333; font-weight: 500;">Marque</label>
             <input asp-for="Marque" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
             <span asp-validation-for="Marque" class="text-danger"></span>
         </div>
-        
-        <div class="mb-4">
+
+      <div aria-label="Modele" class="mb-4">
             <label asp-for="Modele" class="form-label" style="color: #333; font-weight: 500;">Modèle</label>
             <input asp-for="Modele" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
             <span asp-validation-for="Modele" class="text-danger"></span>
         </div>
-        
-        <div class="mb-4">
+
+      <div aria-label="Finition" class="mb-4">
             <label asp-for="Finition" class="form-label" style="color: #333; font-weight: 500;">Finition</label>
             <input asp-for="Finition" class="form-control" style="border-radius: 0; height: 45px; border: 1px solid #ddd;" />
             <span asp-validation-for="Finition" class="text-danger"></span>
         </div>
-        
-        <div class="mb-4">
+
+      <div aria-label="image" class="mb-4">
             <label asp-for="ImageUrl" class="form-label" style="color: #333; font-weight: 500;">Visuel</label>
             <div class="form-control" style="border-radius: 0; height: 120px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Cliquez pour ajouter une image">
-                @if (!string.IsNullOrEmpty(Model.ImageUrl)) {
-                    <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <img src="@Model.ImageUrl" alt="@Model.Marque @Model.Modele" style="max-height: 90px; max-width: 90%; object-fit: contain;" />
-                        <span style="font-size: 12px; color: #999; margin-top: 5px;">Image actuelle</span>
+
+                    <div id="image" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <img id="preview" src="@Model.ImageUrl" style="max-height: 90px; max-width: 90%; object-fit: contain;" />
                     </div>
-                } else {
-                    <div class="text-center">
-                        <div style="background-color: #f8f8f8; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-                            <span style="font-size: 20px;">+</span>
-                        </div>
-                        <span style="color: #999; font-size: 14px;">Ajoutez une image</span>
-                    </div>
-                }
-                <input asp-for="ImageUrl" type="hidden" />
+
+                        <input id="fileInput" name="ImageUrl" asp-for="ImageUrl" type="file" />
             </div>
             <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
@@ -71,7 +63,7 @@
         <input asp-for="EstDisponible" type="hidden" />
         
         <div class="text-center mt-5 mb-4">
-         <button type="submit" class="btn btn-express" style="color: black">Publier</button>
+         <button type="submit" class="btn btn-express" >Publier</button>
         </div>
     </form>
 </div>
